@@ -5,20 +5,15 @@ public class Doctor {
     private String specialization;
     private int experienceYears;
 
+    // Конструктор
     public Doctor(int doctorId, String name, String specialization, int experienceYears) {
         this.doctorId = doctorId;
-        this.name = name;
+        setName(name);
         this.specialization = specialization;
-        this.experienceYears = experienceYears;
+        setExperienceYears(experienceYears);
     }
 
-    public Doctor() {
-        this.doctorId = 0;
-        this.name = "Unknown";
-        this.specialization = "General";
-        this.experienceYears = 0;
-    }
-
+    // Getters
     public int getDoctorId() {
         return doctorId;
     }
@@ -34,12 +29,18 @@ public class Doctor {
     public int getExperienceYears() {
         return experienceYears;
     }
+
+    // Setters withvalidations
     public void setDoctorId(int doctorId) {
         this.doctorId = doctorId;
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (name != null && !name.trim().isEmpty()) {
+            this.name = name;
+        } else {
+            System.out.println("Имя врача не может быть пустым.");
+        }
     }
 
     public void setSpecialization(String specialization) {
@@ -47,20 +48,22 @@ public class Doctor {
     }
 
     public void setExperienceYears(int experienceYears) {
-        this.experienceYears = experienceYears;
+        if (experienceYears >= 0) {
+            this.experienceYears = experienceYears;
+        } else {
+            System.out.println("Warning: work experience years cannot be negative.");
+            this.experienceYears = 0;
+        }
     }
-
-    public boolean isExperienced() {
-        return experienceYears >= 5;
-    }
-
     public boolean canPerformSurgery() {
-        return experienceYears >= 10;
+        return specialization.equalsIgnoreCase("Surgery")
+                || specialization.equalsIgnoreCase("Cardiology");
     }
 
     @Override
     public String toString() {
-        return "Doctor{doctorId=" + doctorId +
+        return "Doctor{" +
+                "id=" + doctorId +
                 ", name='" + name + '\'' +
                 ", specialization='" + specialization + '\'' +
                 ", experienceYears=" + experienceYears +
